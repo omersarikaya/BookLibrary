@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.omersarikaya.booklibrary.viewModel.BookViewModel" />
+    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{model.bookLiveData.title}"
+        android:hint="Kitap Adı" />
+
+    <EditText
+        android:id="@+id/editAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{model.bookLiveData.author}"
+        android:hint="Yazar" />
+
+    <EditText
+        android:id="@+id/editPages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{model.bookLiveData.pages}"
+        android:hint="Sayfa Sayısı"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editPublisher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{model.bookLiveData.publisher}"
+        android:hint="Yayın Evi" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Submit" />
+
+</LinearLayout>
+
+
+</layout>
