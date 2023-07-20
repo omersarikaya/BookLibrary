@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="model"
             type="com.omersarikaya.booklibrary.viewModel.BookViewModel" />
     </data>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,21 +18,18 @@
         android:id="@+id/editTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{model.bookLiveData.title}"
         android:hint="Kitap Adı" />
 
     <EditText
         android:id="@+id/editAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{model.bookLiveData.author}"
         android:hint="Yazar" />
 
     <EditText
         android:id="@+id/editPages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{model.bookLiveData.pages}"
         android:hint="Sayfa Sayısı"
         android:inputType="number" />
 
@@ -40,7 +37,6 @@
         android:id="@+id/editPublisher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{model.bookLiveData.publisher}"
         android:hint="Yayın Evi" />
 
     <Button
@@ -51,7 +47,23 @@
         android:layout_marginTop="16dp"
         android:text="Submit" />
 
+    <Button
+        android:id="@+id/btnList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Listeyi Göster" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookPrint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </LinearLayout>
+
+
 
 
 </layout>
