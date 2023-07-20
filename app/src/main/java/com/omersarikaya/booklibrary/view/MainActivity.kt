@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnList.setOnClickListener {
             val bookList = userDao.getAll()
-            bookList.forEach { val message = "Kitap kaydedildi: ${it.title} - ${it.author}"
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+            //viewModelin içindeki kital listesini butona tıklanınca veritabınından dolduruyoruz.
+            viewModel.bookLiveData.value = bookList
         }
     }
 

@@ -1,48 +1,47 @@
 package com.omersarikaya.booklibrary.adaptor
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.omersarikaya.booklibrary.R
+import com.omersarikaya.booklibrary.databinding.ItemBookBinding
 import com.omersarikaya.booklibrary.model.Book
+import com.omersarikaya.booklibrary.BR
 
-class BookAdaptor(private val mList: List<Book>) : RecyclerView.Adapter<BookAdaptor.BookViewHolder>(){
+
+class BookAdaptor(private var mList: List<Book>) :
+    RecyclerView.Adapter<BookAdaptor.BookViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_book, parent, false)
+        val binding: ItemBookBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            com.omersarikaya.booklibrary.R.layout.item_book, parent, false
+        )
 
-        return BookViewHolder(view) //layout ile adaptör birbirine baglandi
+        return BookViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return mList.size
     }
 
+    //Data binding ile oluşturuyoruz eskisi gibi değil artık aşağıdaki linkleri inceleyebilirsin
+    //https://medium.com/huawei-developers/how-to-use-recyclerview-with-databinding-mvvm-211f6b69a81a
+    //https://www.digitalocean.com/community/tutorials/android-recyclerview-data-binding
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
 
-        val bookModel = mList[position]
-
-        holder.editTitle.text = bookModel.title
-        holder.editAuthor.text = bookModel.author
-        holder.editPages.text = bookModel.pages
-        holder.editPublisher.text = bookModel.publisher
-
-    }
-    class BookViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView){
-
-        val editTitle: TextView = itemView.findViewById(R.id.editTitle)
-        val editAuthor: TextView = itemView.findViewById(R.id.editAuthor)
-        val editPages: TextView = itemView.findViewById(R.id.editPages)
-        val editPublisher: TextView = itemView.findViewById(R.id.editPublisher)
+        val dataModel: Book = mList[position]
+        holder.bind(dataModel)
     }
 
+    class BookViewHolder(private val itemRowBinding: ItemBookBinding) :
+        RecyclerView.ViewHolder(itemRowBinding.root) {
 
+        fun bind(obj: Book?) {
+            itemRowBinding.setVariable(BR.model, obj)
+            itemRowBinding.executePendingBindings()
+        }
+    }
 }

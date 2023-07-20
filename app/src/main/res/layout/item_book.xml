@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="model"
             type="com.omersarikaya.booklibrary.model.Book" />
@@ -9,39 +12,70 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="656dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <EditText
-                android:id="@+id/editTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Kitap Adı" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editAuthor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Yazar" />
+                <!--Edit text değil text view olacak editText input girişi için kullanılır
+                TextViewlerin textlerini model içerisinden otomatik doldurduk.
+                -->
+                <TextView
+                    android:id="@+id/editTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Kitap Adı"
+                    android:text="@{model.title}" />
 
-            <EditText
-                android:id="@+id/editPages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Sayfa Sayısı"
-                android:inputType="number" />
+                <TextView
+                    android:id="@+id/editAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="Yazar"
+                    android:text="@{model.author}" />
 
-            <EditText
-                android:id="@+id/editPublisher"
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Yayın Evi" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/editPages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Sayfa Sayısı"
+                    android:text="@{model.pages}" />
+
+                <TextView
+                    android:id="@+id/editPublisher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Yayın Evi"
+                    android:text="@{model.publisher}" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="8dp"
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 
