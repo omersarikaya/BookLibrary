@@ -20,5 +20,6 @@ class BookViewModel : ViewModel() {
         userDao.insertAll(book)
         bookLiveData.value = bookLiveData.value?.plus(book)
     }
+
 }
 
