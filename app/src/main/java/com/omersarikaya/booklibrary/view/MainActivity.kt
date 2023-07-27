@@ -2,6 +2,7 @@ package com.omersarikaya.booklibrary.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -39,15 +40,18 @@ class MainActivity : AppCompatActivity() {
                     binding.editAuthor.text.toString(),
                     binding.editPages.text.toString(),binding.editPublisher.text.toString())
 
+
                 val toast = Toast.makeText(applicationContext,"Saved", Toast.LENGTH_SHORT)
                 toast.show()
                 clearEditText()
 
             }
             else{
+
                 val toast = Toast.makeText(applicationContext,"Please fill all fields",Toast.LENGTH_SHORT)
                 toast.show()
             }
+
 
 
         }
@@ -59,6 +63,35 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,ListButtonActivity::class.java)
             startActivity(intent)
         }
+
+        binding.editTitle.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.title.helperText = validTitle()
+            }
+        }
+
+
+            binding.editAuthor.setOnFocusChangeListener{_,focused ->
+                if (!focused)
+                {
+                    binding.author.helperText = validAuthor()
+                }
+            }
+
+        binding.editPages.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.pages.helperText = validPages()
+            }
+        }
+
+        binding.editPublisher.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.title.helperText = validPublisher()
+            }
+        }
+
     }
 
     private fun clearEditText(){
@@ -76,6 +109,58 @@ class MainActivity : AppCompatActivity() {
         val publisher = binding.editPublisher.text.toString()
 
         return title.isNotBlank() && author.isNotBlank() && pages.isNotBlank() && publisher.isNotBlank()
+    }
+
+
+    private fun validTitle(): String?{
+        val titleText=binding.editTitle.text.toString()
+        return if(titleText.isBlank()){
+            "Fill in the blank"
+        }
+        else{
+            null
+        }
+
+    }
+
+
+    private fun validAuthor(): String?{
+        val authorText=binding.editAuthor.text.toString()
+        return if(authorText.isBlank()){
+            "Fill in the blank"
+        }
+        else{
+            null
+        }
+
+    }
+
+
+
+
+    private fun validPages(): String?{
+        val pagesText=binding.editTitle.text.toString()
+        return if(pagesText.isBlank()){
+            "Fill in the blank"
+        }
+        else{
+            null
+        }
+
+    }
+
+
+
+
+    private fun validPublisher(): String?{
+        val publisherText=binding.editPublisher.text.toString()
+        return if(publisherText.isBlank()){
+            "Fill in the blank"
+        }
+        else{
+            null
+        }
+
     }
 
 
