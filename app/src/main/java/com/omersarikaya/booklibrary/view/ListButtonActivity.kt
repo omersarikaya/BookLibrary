@@ -1,10 +1,13 @@
 package com.omersarikaya.booklibrary.view
 
+import android.content.ClipData
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.omersarikaya.booklibrary.R
+import com.omersarikaya.booklibrary.adaptor.BookAdaptor
 import com.omersarikaya.booklibrary.database.AppDatabase
 import com.omersarikaya.booklibrary.databinding.ActivityButtonListBinding
 import com.omersarikaya.booklibrary.model.Book
@@ -20,6 +23,11 @@ class ListButtonActivity: AppCompatActivity() {
         binding.model = viewModel
         setContentView(binding.root)
         viewModel.bookLiveData.value = showBookList()
+
+
+
+
+
     }
 
     private fun showBookList(): List<Book> {
@@ -30,4 +38,6 @@ class ListButtonActivity: AppCompatActivity() {
         val listDao = db.bookDao()
         return listDao.getAll()
     }
+    //Listeleme ekranında herhangi bir recyler viww da orda bir itemi bastığı zaman detay sayfası açılıcak full screen dialog
+    //recyler view item on click ataayıp yeni bir sayfa aç
 }

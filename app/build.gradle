@@ -33,6 +33,21 @@ android {
         }
     }
 
+    flavorDimensions "version"
+
+    productFlavors {
+
+        admin{
+            applicationId"com.example.admin"
+
+        }
+
+        customer{
+            applicationId"com.example.customer"
+            applicationIdSuffix".debug"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -93,4 +108,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     implementation 'com.google.android.material:material:1.2.0'
+
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 }

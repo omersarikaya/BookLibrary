@@ -58,30 +58,44 @@ class RegisterActivity: AppCompatActivity() {
                     val alertDialog = builder.create()
                     alertDialog.show()
 
+                } else {
+                    viewModel.registerUser(userDao,null,binding.userNameInput.text.toString(),
+                        binding.passwordTitle.text.toString())
+
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Androidly Alert")
+                    builder.setMessage("We have a message")
+                    //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+                    builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+
+                        intent= Intent(applicationContext,LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+                    builder.show()
                 }
 
 
 
 
-                viewModel.registerUser(userDao,null,binding.userNameInput.text.toString(),
-                    binding.passwordTitle.text.toString())
 
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Androidly Alert")
-                builder.setMessage("We have a message")
-                //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
 
-                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-
-                    intent= Intent(applicationContext,LoginActivity::class.java)
-                    startActivity(intent)
-                }
-                builder.show()
 
 
             } else {
                 // TODO error eklecek. Boş bırakılmaz diye
-                binding.userName.error = "User name and password Should not be blank"
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Lütfen Boşlukları Doldurun")
+                builder.setMessage("Lütfen boşlukları doldurunuz.")
+
+                // Kapatma butonu ekleyerek kullanıcının diyalogu kapatabilmesini sağlarız
+                builder.setPositiveButton("Tamam") { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+                // Diyalog kutusunu oluştur ve göster
+                val alertDialog = builder.create()
+                alertDialog.show()
 
 
 
@@ -96,7 +110,10 @@ class RegisterActivity: AppCompatActivity() {
         binding.passwordTitle.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 binding.password.helperText = validPassword()
+            }else{
+                null
             }
+
         }
 
 
@@ -104,8 +121,10 @@ class RegisterActivity: AppCompatActivity() {
             if (!focused)
             {
                 binding.userName.helperText = validName()
+            }else{
+                null
             }
-        }
+            }
 
         }
 
@@ -114,8 +133,16 @@ class RegisterActivity: AppCompatActivity() {
         val password = binding.passwordTitle.text.toString()
         val userName= binding.userNameInput.text.toString()
         if (password.isEmpty() || userName.isEmpty()){
-            binding.userName.error = " Kullanıcı adı veya şifre boş bırakılamaz. "
+            if(userName.isEmpty()){
+                binding.userName.error = " Kullanıcı adı boş bırakılamaz. "
+            }
+            if(password.isEmpty()){
+                binding.password.error = " Şifre boş bırakılamaz. "
+            }
+
             return false
+        } else {
+            return true
         }
 
 
@@ -134,11 +161,6 @@ class RegisterActivity: AppCompatActivity() {
         val alertDialog = builder.create()
         alertDialog.show()
     */
-
-
-
-
-        return false
     }
 
 

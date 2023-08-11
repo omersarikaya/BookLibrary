@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Kullanıcı Adı"
-            app:helperText="@string/required">
+            app:helperText="@string/required">>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/userNameInput"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Şifre Giriniz"
-            app:helperText="@string/required">
+            app:helperText="@string/required">>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordTitle"

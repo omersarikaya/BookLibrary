@@ -15,6 +15,14 @@ interface BookDao {
     @Query("SELECT * FROM book WHERE id IN (:bookIds)")
     fun loadAllByIds(bookIds: IntArray): List<Book>
 
+
+
+    @Query("SELECT * FROM book WHERE title IN (:title) AND author IN (:author)")
+    fun checkBook(title: String , author: String): Boolean
+
+    @Query("SELECT * FROM book WHERE title IN (:title)")
+    fun checktitleName( title: String): Boolean
+
     @Insert
     fun insertAll(vararg users: Book)
 

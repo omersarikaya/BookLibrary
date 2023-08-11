@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,23 +34,81 @@ class MainActivity : AppCompatActivity() {
 
         val userDao = db.bookDao()
 
+
         binding.btnSave.setOnClickListener {
-
+             // TODO kitap adı ve yazar ismi aynı ise pop-up göster bu kitap zzaten kütüphanede mevcuttur diye.
             if(isFormValid()){
-                viewModel.saveBook(userDao,null,binding.editTitle.text.toString(),
-                    binding.editAuthor.text.toString(),
-                    binding.editPages.text.toString(),binding.editPublisher.text.toString())
+
+                val book = binding.editTitle.text.toString()
+
+                val author = binding.editAuthor.text.toString()
+                if(userDao.checkBook(book,author)){
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Girdiğiniz kitap kütüphanede mevcuttur")
+                    builder.setMessage("Girdiğiniz kitap kütüphanede mevcuttur. Lütfen farklı bir kitap girin.")
+
+                    // Kapatma butonu ekleyerek kullanıcının diyalogu kapatabilmesini sağlarız
+                    builder.setPositiveButton("Tamam") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+
+                    // Diyalog kutusunu oluştur ve göster
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+
+                }else{
+
+                    viewModel.saveBook(userDao,null,binding.editTitle.text.toString(),
+                        binding.editAuthor.text.toString(),
+                        binding.editPages.text.toString(),binding.editPublisher.text.toString())
+                    val toast = Toast.makeText(applicationContext,"Saved", Toast.LENGTH_SHORT)
+                    toast.show()
+                    clearEditText()
+
+                }
 
 
-                val toast = Toast.makeText(applicationContext,"Saved", Toast.LENGTH_SHORT)
-                toast.show()
-                clearEditText()
+                /*if(!userDao.checktitleName(book)){
+
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("lütfen bütün boşlukları doldurun")
+                    builder.setMessage("Lütfen kitap adınız giriniz.")
+
+                    // Kapatma butonu ekleyerek kullanıcının diyalogu kapatabilmesini sağlarız
+                    builder.setPositiveButton("Tamam") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+
+                    // Diyalog kutusunu oluştur ve göster
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+
+                }
+
+                 */
+
+
+
 
             }
             else{
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Lütfen Boşlukları Doldurun")
+                builder.setMessage("Lütfen boşlukları doldurunuz.")
 
-                val toast = Toast.makeText(applicationContext,"Please fill all fields",Toast.LENGTH_SHORT)
-                toast.show()
+                // Kapatma butonu ekleyerek kullanıcının diyalogu kapatabilmesini sağlarız
+                builder.setPositiveButton("Tamam") { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+                // Diyalog kutusunu oluştur ve göster
+                val alertDialog = builder.create()
+                alertDialog.show()
+
+
+
+
+
             }
 
 
@@ -67,14 +126,19 @@ class MainActivity : AppCompatActivity() {
         binding.editTitle.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 binding.title.helperText = validTitle()
+            } else {
+                null
             }
         }
+
 
 
             binding.editAuthor.setOnFocusChangeListener{_,focused ->
                 if (!focused)
                 {
                     binding.author.helperText = validAuthor()
+                }else{
+                    null
                 }
             }
 
@@ -82,6 +146,8 @@ class MainActivity : AppCompatActivity() {
             if (!focused)
             {
                 binding.pages.helperText = validPages()
+            }else{
+                null
             }
         }
 
@@ -89,8 +155,12 @@ class MainActivity : AppCompatActivity() {
             if (!focused)
             {
                 binding.title.helperText = validPublisher()
+            }else{
+                null
             }
         }
+
+
 
     }
 
@@ -102,14 +172,42 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun isFormValid(): Boolean{
+    /*private fun isFormValid(): Boolean{
         val title = binding.editTitle.text.toString()
         val author = binding.editAuthor.text.toString()
         val pages = binding.editPages.text.toString()
         val publisher = binding.editPublisher.text.toString()
 
         return title.isNotBlank() && author.isNotBlank() && pages.isNotBlank() && publisher.isNotBlank()
+    }*/
+
+    private fun isFormValid(): Boolean{
+        val title = binding.editTitle.text.toString()
+        val author = binding.editAuthor.text.toString()
+        val pages = binding.editPages.text.toString()
+        val publisher = binding.editPublisher.text.toString()
+        if (title.isEmpty() || author.isEmpty()||pages.isEmpty()||publisher.isEmpty()){
+            if(title.isEmpty()){
+                binding.title.error = " Kitap adı boş bırakılamaz. "
+            }
+            if(author.isEmpty()){
+                binding.author.error = " Yazar boş bırakılamaz. "
+            }
+            if(pages.isEmpty()){
+                binding.pages.error= "Sayfa sayısı boş bırakılamaz"
+            }
+            if(publisher.isEmpty()){
+                binding.publisher.error= "Yayıncı boş bırakılamaz"
+            }
+
+
+            return false
+        } else {
+            return true
+        }
     }
+
+
 
 
     private fun validTitle(): String?{
