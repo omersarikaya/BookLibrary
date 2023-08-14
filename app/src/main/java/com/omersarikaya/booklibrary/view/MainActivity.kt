@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
@@ -33,6 +34,73 @@ class MainActivity : AppCompatActivity() {
         ).allowMainThreadQueries().build()
 
         val userDao = db.bookDao()
+
+
+        binding.btnList.setOnClickListener {
+            //val bookList = userDao.getAll()
+            //viewModelin içindeki kital listesini butona tıklanınca veritabınından dolduruyoruz.
+            //viewModel.bookLiveData.value = bookList
+            val intent = Intent(this,ListButtonActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.editTitle.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.title.error = validTitle()
+            } else {
+                binding.title.error=null
+            }
+        }
+
+
+
+        binding.editAuthor.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.author.error = validAuthor()
+            }else{
+                binding.author.error=null
+            }
+        }
+
+        binding.editPages.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.pages.error = validPages()
+            }else{
+                binding.pages.error=null
+            }
+        }
+
+        binding.editPublisher.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.publisher.error= validPublisher()
+            }else{
+                binding.publisher.error=null
+            }
+        }
+
+
+
+
+
+        binding.editTitle.addTextChangedListener{
+            binding.btnSave.isEnabled=
+                !binding.editAuthor.text.isNullOrEmpty()&&!binding.editPages.text.isNullOrEmpty()&&!binding.editPublisher.text.isNullOrEmpty()&&!it.toString().isNullOrEmpty()
+        }
+        binding.editAuthor.addTextChangedListener{
+            binding.btnSave.isEnabled=
+                !binding.editTitle.text.isNullOrEmpty()&&!binding.editPages.text.isNullOrEmpty()&&!binding.editPublisher.text.isNullOrEmpty()&&!it.toString().isNullOrEmpty()
+        }
+        binding.editPublisher.addTextChangedListener{
+            binding.btnSave.isEnabled=
+                !binding.editAuthor.text.isNullOrEmpty()&&!binding.editPages.text.isNullOrEmpty()&&!binding.editTitle.text.isNullOrEmpty()&&!it.toString().isNullOrEmpty()
+        }
+        binding.editPages.addTextChangedListener{
+            binding.btnSave.isEnabled=
+                !binding.editAuthor.text.isNullOrEmpty()&&!binding.editTitle.text.isNullOrEmpty()&&!binding.editPublisher.text.isNullOrEmpty()&&!it.toString().isNullOrEmpty()
+        }
 
 
         binding.btnSave.setOnClickListener {
@@ -115,50 +183,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.btnList.setOnClickListener {
-            //val bookList = userDao.getAll()
-            //viewModelin içindeki kital listesini butona tıklanınca veritabınından dolduruyoruz.
-            //viewModel.bookLiveData.value = bookList
-            val intent = Intent(this,ListButtonActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.editTitle.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                binding.title.helperText = validTitle()
-            } else {
-                null
-            }
-        }
 
 
 
-            binding.editAuthor.setOnFocusChangeListener{_,focused ->
-                if (!focused)
-                {
-                    binding.author.helperText = validAuthor()
-                }else{
-                    null
-                }
-            }
 
-        binding.editPages.setOnFocusChangeListener{_,focused ->
-            if (!focused)
-            {
-                binding.pages.helperText = validPages()
-            }else{
-                null
-            }
-        }
 
-        binding.editPublisher.setOnFocusChangeListener{_,focused ->
-            if (!focused)
-            {
-                binding.title.helperText = validPublisher()
-            }else{
-                null
-            }
-        }
+
 
 
 

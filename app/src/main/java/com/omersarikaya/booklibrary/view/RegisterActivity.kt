@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.omersarikaya.booklibrary.database.AppDatabase
@@ -32,6 +33,26 @@ class RegisterActivity: AppCompatActivity() {
         ).allowMainThreadQueries().build()
 
         val userDao = db.userDao()
+
+
+        binding.passwordTitle.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.password.error = validPassword()
+            }else{
+                binding.password.error=null
+            }
+
+        }
+
+
+        binding.userNameInput.setOnFocusChangeListener{_,focused ->
+            if (!focused)
+            {
+                binding.userName.error = validName()
+            }else{
+                binding.userName.error=null
+            }
+        }
 
         binding.btnRegister.setOnClickListener {
             // TODO kullanıcı adı boş olamaz. validate et
@@ -107,24 +128,8 @@ class RegisterActivity: AppCompatActivity() {
 
 
         }
-        binding.passwordTitle.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                binding.password.helperText = validPassword()
-            }else{
-                null
-            }
-
-        }
 
 
-        binding.userNameInput.setOnFocusChangeListener{_,focused ->
-            if (!focused)
-            {
-                binding.userName.helperText = validName()
-            }else{
-                null
-            }
-            }
 
         }
 
